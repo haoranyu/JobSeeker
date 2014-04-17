@@ -198,7 +198,7 @@ class Twitter
 	 */
 	public function search($query, $full = FALSE)
 	{
-		$res = $this->request('search/tweets', 'GET', is_array($query) ? $query : array('q' => $query));
+		$res = $this->request('search/tweets', 'GET', is_array($query) ? $query : array('q' => $query, 'count' => 100));
 		return $full ? $res : $res->statuses;
 	}
 
