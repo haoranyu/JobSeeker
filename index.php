@@ -5,7 +5,7 @@ include 'db.php';
 date_default_timezone_set('Etc/GMT-5');
 
 function insertTweet($tid, $uid, $uname, $uloc, $ufollowers, $ulang, $content, $query, $time){
-	mysql_query("INSERT INTO `tweets`(`tid`, `uid`, `uname`, `uloc`, `ufollowers`, `ulang`, `content`, `query`, `time`)	VALUES ('".$tid."', '".$uid."', '".$uname."', '".$uloc."', '".$ufollowers."', '".$ulang."', '".$content."', '".$query."', '".$time."')");
+	mysql_query("INSERT INTO `tweets`(`tid`, `uid`, `uname`, `uloc`, `ufollowers`, `ulang`, `content`, `query`, `time`, `related`)	VALUES ('".$tid."', '".$uid."', '".$uname."', '".$uloc."', '".$ufollowers."', '".$ulang."', '".$content."', '".$query."', '".$time."', '-1')");
 }
 
 function searchTweet($query){
