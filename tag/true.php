@@ -1,6 +1,27 @@
 <?php
 include('db.php');
+include('function.php');
 $tid = htmlspecialchars($_POST['tid']);
-$ret = mysql_query("UPDATE `tweets` SET `related`='1' WHERE `tid`='".$tid."'");
-echo json_encode($ret);
+$user = htmlspecialchars($_POST['user']);
+
+$val = get_real_val($tid);
+mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '1')");
+if($val == -1){
+	$flag = -1;
+	update_acc_nature($user);
+}
+else if($val == 1){
+// true positive
+	$flag = 1;
+	update_acc_positive($user);
+}
+else if($val == 0){
+// false positve
+	$flag = 0;
+	update_acc_negative($user);
+}
+$acc = get_acc($user);
+$num = get_num($user);
+update_record($tid);
+echo json_encode(array('flag'=>$flag, 'num'=>$num, 'acc'=>$acc*100));
 ?>
