@@ -1,4 +1,6 @@
 <?php
+header("location:tag/");
+exit;
 require_once 'twitter.class.php';
 include 'db.php'; 
 

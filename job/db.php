@@ -1,6 +1,6 @@
 <?php
 $DB_HOST='localhost';//address
-$DB_USER='';      //username
+$DB_USER='';  //username
 $DB_PWD='';          //keyword
 $DB_NAME='twitter';      //dbname
 
