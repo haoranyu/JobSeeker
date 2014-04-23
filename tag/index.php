@@ -5,8 +5,9 @@ if(!isset($_COOKIE['user'])){
 	$user = rand_str();
 	setcookie("user", $user, time()+3600*24*365);
 	$query = "INSERT INTO `twitter_accuracy`(`user`, `hit`, `sum`) VALUES ('".$user."', '0', '0')";
-	echo $query;
 	mysql_query($query);
+	$acc = 0;
+	$num = 0;
 }
 else{
 	$user = htmlspecialchars($_COOKIE['user']);
@@ -40,7 +41,7 @@ else{
 		<div style="width:80%; margin:0 auto;font-size:26px;margin-top:10px" id="story"></div>
 		<div style="width:80%; margin:10px auto; font-size:14px; text-align:left;" class="para" id="para">
 			<p>俞昊然同学正在做一个关于美国就业情况的数据研究，由于昊然同学英语不够好，在理解美国人的情感的时候，多少会出现一些错误。于是做了这个小游戏，希望你能坚持玩上几分钟，帮助一下昊然同学。</p>
-			<p><b>>>游戏玩法如下(正确率在75%或以上的同学，每判断10000条, 请到微博找“@俞昊然”要100元手机充值或等价商品……):</b></p>
+			<p><b>>>游戏玩法如下(正确率在75%或以上的同学，每判断5000条, 请到微博找“@俞昊然”要500元手机充值或等价商品……):</b></p>
 			<p>&nbsp; &nbsp;1. 游戏开始时，下面的白色区域会显示出一个美国人发的Tweet（类似于中国的微博）</p>
 			<p>&nbsp; &nbsp;2. 如果你觉得这个发出信息的人，自身、当前有极强的寻找工作的需求，请点击左侧绿色部分</p>
 			<p>&nbsp; &nbsp;3. 不是自己要找工作，或者是招人招不到，或者是某人纯粹对于工作的吐嘈，请点击右侧红色部分</p>
@@ -50,10 +51,11 @@ else{
 	<div style="background:#ecf0f1;padding:50px 0;margin:0;font-size:26px">
 		<div style="width:80%; margin:0 auto" id="content"></div>
 	</div>
-	<div style="font-size:20px;cursor:pointer;color:#fff;font-weight:bold">
+	<div style="font-size:20px;cursor:pointer;color:#fff;font-weight:bold;margin-bottom:1px;">
 		<div style="width:50%;float:left;background:#27ae60;padding:100px 0;" id="yes">上面是一个很希望找工作的人发的求工作的内容</div>
 		<div style="width:50%;float:left;background:#c0392b;padding:100px 0;" id="no">上面是纯吐嘈、或介绍工作的广告等非求职内容</div>
 	</div>
+	<div style="font-size:20px; color:#fff; font-weight:bold; font-size:14px;line-height:30px">兑换凭证号： <?php echo $user; ?></div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		var my_tid = '0';
