@@ -3,7 +3,8 @@ function rand_str(){
 	return substr( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" ,mt_rand( 0 ,50 ) ,1 ) .substr( md5( time() ), 1);
 }
 function rand_case(){
-	return time()%3 - 1;
+	$num = array(0, 1, -1);
+	return $num[time()%3];
 }
 function get_real_val($tid){
 	$query = mysql_query("SELECT * FROM `tweets` WHERE `tid` = '".$tid."' LIMIT 1");
@@ -40,7 +41,10 @@ function update_acc_negative($user){
 	}
 }
 function update_acc_nature($user){
-	insert_acc_nature($user);
+	if(!insert_acc_nature($user)){
+		mysql_query("UPDATE `twitter_accuracy` SET `sum`=`sum`+1, `hit` = `hit`+1 WHERE `user`='".$user."'");
+	}
+	//insert_acc_nature($user);
 }
 function insert_acc_positive($user){
 	$query = mysql_query("SELECT * FROM `twitter_accuracy` WHERE `user` = '".$user."' LIMIT 1");
@@ -71,14 +75,14 @@ function update_record($tid){
 	$neg = num_record_negative($tid);
 	$sum = ($pos + $neg);
 	if($sum != 0){
-		if($sum >= 10 && ($pos/$sum > 0.8)){
+		if($sum >= 5 && ($pos/$sum > 0.8)){
 			mysql_query("UPDATE `tweets` SET `related`='1' WHERE `tid`='".$tid."'");
 		}
-		else if($sum >= 10 && ($neg/$sum > 0.8)){
+		else if($sum >= 5 && ($neg/$sum > 0.8)){
 			mysql_query("UPDATE `tweets` SET `related`='0' WHERE `tid`='".$tid."'");
 		}
 	}
-	if($sum >= 20){
+	if($sum >= 15){
 		mysql_query("UPDATE `tweets` SET `done`='1' WHERE `tid`='".$tid."'");
 	}
 }
