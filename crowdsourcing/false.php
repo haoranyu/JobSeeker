@@ -15,12 +15,16 @@ if($go['count'] == 2){
 }
 else if($go['count'] == 1){
 	if($go['status'] == true){
-		mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+		if(get_acc($user) > 0.85){
+			mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+		}
 		$flag = 1;
 		update_acc_positive($user);
 	}
 	else{
-		mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+		if(get_acc($user) > 0.85){
+			mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+		}
 		$flag = 0;
 		update_acc_inverse($user);
 	}
@@ -30,7 +34,9 @@ else if($go['count'] == 1){
 	echo json_encode(array('flag'=>$flag, 'num'=>$num, 'acc'=>$acc*100));
 }
 else{
-	mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+	if(get_acc($user) > 0.85){
+		mysql_query("INSERT INTO `twitter_record`(`tid`, `user`, `judge`) VALUES ('".$tid."', '".$user."', '0')");
+	}
 	if($val == -1){
 		$flag = -1;
 		$_COOKIE['remain'] -= 1;
