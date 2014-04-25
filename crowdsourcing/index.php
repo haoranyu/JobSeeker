@@ -53,7 +53,7 @@ include('load.php');
 		        type: 'POST',
 		        data:{tid: my_tid, user: '<?php echo $user;?>'},
 		        dataType: 'json',
-		        timeout: 8000,
+		        timeout: 20000,
 		        error:  function(){
 		        	alert('<?php echo ERROR;?>');
 		    	},
@@ -82,7 +82,7 @@ include('load.php');
 		        type: 'POST',
 		        data:{tid: my_tid, user: '<?php echo $user;?>'},
 		        dataType: 'json',
-		        timeout: 8000,
+		        timeout: 20000,
 		        error:  function(){
 		        	alert('<?php echo ERROR;?>');
 		    	},
@@ -112,7 +112,7 @@ include('load.php');
 		        type: 'POST',
 		        data:{tid: my_tid},
 		        dataType: 'json',
-		        timeout: 8000,
+		        timeout: 20000,
 		        error:  function(){
 		        	alert('<?php echo ERROR;?>');
 		    	},
