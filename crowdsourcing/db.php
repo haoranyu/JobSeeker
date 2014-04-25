@@ -1,7 +1,7 @@
 <?php
 $DB_HOST='localhost';//address
-$DB_USER='root';      //username
-$DB_PWD='yhrwin2013';          //keyword
+$DB_USER='';      //username
+$DB_PWD='';          //keyword
 $DB_NAME='twitter';      //dbname
 
 $link=mysql_connect($DB_HOST,$DB_USER,$DB_PWD)or die('Connect to datebase error:'.mysql_error());
