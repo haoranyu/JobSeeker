@@ -3,8 +3,8 @@ function rand_str(){
 	return substr( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" ,mt_rand( 0 ,50 ) ,1 ) .substr( md5( time() ), 1);
 }
 function rand_case(){
-	$num = array(0, 1, -1);
-	return $num[time()%3];
+	$num = array(0, 1, -1, -1);
+	return $num[time()%4];
 }
 function get_real_val($tid){
 	$query = mysql_query("SELECT * FROM `tweets` WHERE `tid` = '".$tid."' LIMIT 1");
@@ -44,7 +44,9 @@ function update_acc_nature($user){
 	if(!insert_acc_nature($user)){
 		mysql_query("UPDATE `twitter_accuracy` SET `sum`=`sum`+1, `hit` = `hit`+1 WHERE `user`='".$user."'");
 	}
-	//insert_acc_nature($user);
+}
+function update_acc_inverse($user){
+	mysql_query("UPDATE `twitter_accuracy` SET `sum`=`sum`-1, `hit` = `hit`-1 WHERE `user`='".$user."'");
 }
 function insert_acc_positive($user){
 	$query = mysql_query("SELECT * FROM `twitter_accuracy` WHERE `user` = '".$user."' LIMIT 1");
@@ -93,5 +95,30 @@ function num_record_positive($tid){
 function num_record_negative($tid){
 	$query = mysql_query("SELECT * FROM `twitter_record` WHERE `tid` = '".$tid."' AND `judge` = 0");
 	return mysql_num_rows($query);
+}
+function num_remain_task(){
+	if(isset($_COOKIE['remain'])){
+		return htmlspecialchars($_COOKIE['remain']);
+	}
+	return mysql_num_rows(mysql_query("SELECT * FROM `tweets` WHERE (`ulang` = 'en' OR `ulang` = 'en-gb') AND `related` = '-1' AND `done` = '0' " ));
+}
+function get_go_val($tid, $user, $judge){
+	$query = mysql_query("SELECT * FROM `twitter_record` WHERE `tid` = '".$tid."' AND `user` = '".$user."' LIMIT 2");
+	$count = mysql_num_rows($query);
+	if($count == 2){
+		return array('count' => 2);
+	}
+	else if($count == 0){
+		return array('count' => 0);
+	}
+	else{
+		$row = mysql_fetch_array($query);
+		if($row['judge'] != $judge){
+			return array('count' => 1, 'status' => false);
+		}
+		else{
+			return array('count' => 1, 'status' => true);
+		}
+	}
 }
 ?>

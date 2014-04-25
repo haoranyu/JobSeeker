@@ -30,9 +30,9 @@ include('load.php');
 		</div>
 	</div>
 	<div class="load">
-		<div class="content" id="content"></div>
+		<div class="content" id="content"><?php echo LOADING;?></div>
 	</div>
-	<div class="judge">
+	<div class="judge" id="judge">
 		<div class="case case-yes" id="yes"><?php echo YES_RES;?></div>
 		<div class="case case-skip" id="skip"><?php echo SKIP_RES;?></div>
 		<div class="case case-no" id="no"><?php echo NO_RES;?></div>
@@ -58,11 +58,17 @@ include('load.php');
 		        	alert('<?php echo ERROR;?>');
 		    	},
 		        success: function(data){
-		        	story(data.flag, data.acc);
-		        	$('#num').text(data.num);
-		        	$('#rate').text(data.acc);
-		        	fetch_tweet();
-		        	$('#para').text('<?php echo SHOW_DESCR;?>');
+		        	if(data == false){
+		        		$('#story').text('<?php echo KNOW;?>');
+		        		fetch_tweet();
+		        	}
+		        	else{
+			        	story(data.flag, data.acc);
+			        	$('#num').text(data.num);
+			        	$('#rate').text(data.acc);
+			        	fetch_tweet();
+			        	$('#para').text('<?php echo SHOW_DESCR;?>');
+		        	}
 		    	}
 		    });
 		});
@@ -81,11 +87,17 @@ include('load.php');
 		        	alert('<?php echo ERROR;?>');
 		    	},
 		        success: function(data){
-		            story(data.flag, data.acc);
-		        	$('#num').text(data.num);
-		        	$('#rate').text(data.acc);
-		        	fetch_tweet();
-		        	$('#para').text('<?php echo SHOW_DESCR;?>');
+		        	if(data == false){
+		        		$('#story').text('<?php echo KNOW;?>');
+		        		fetch_tweet();
+		        	}
+		        	else{
+		        		story(data.flag, data.acc);
+			        	$('#num').text(data.num);
+			        	$('#rate').text(data.acc);
+			        	fetch_tweet();
+			        	$('#para').text('<?php echo SHOW_DESCR;?>');
+		        	}
 		    	}
 		    });
 		});
@@ -93,6 +105,8 @@ include('load.php');
 			$(this).html('<?php echo DESCR;?>');
 		});
 		function fetch_tweet(){
+			$('#content').text('<?php echo LOADING;?>');
+			$('#judge').slideUp();
 			$.ajax({
 		        url: 'fetch.php',
 		        type: 'POST',
@@ -103,8 +117,15 @@ include('load.php');
 		        	alert('<?php echo ERROR;?>');
 		    	},
 		        success: function(data){
-		            my_tid = data.tid;
-		            $('#content').text(data.cont);
+		        	if(data == false){
+		        		$('#content').text('<?php echo FINISH;?>');
+		        		$('#judge').text('');
+		        	}
+		        	else{
+		        		my_tid = data.tid;
+		            	$('#content').text(data.cont);
+		        	}
+		        	$('#judge').slideDown();
 		    	}
 		    });
 		}
